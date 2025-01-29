@@ -21,6 +21,7 @@
     onkeydown={(event) => { if(event.key === 'Enter') oninputsubmit(); }}
 >
 <h1>{name}</h1>
-{#key submittedText !== ''}
+{#if submittedText !== ''}
     <p>{submittedText}</p>
-{/key}
+    <script>alert('hey')</script>
+{/if}
