@@ -1,6 +1,8 @@
 <script>
     //import img_src from '$lib/assets/Hans_Holbein-The_Ambassadors.jpg'
     import { onMount } from "svelte";
+    import { frescoData } from "./frescodata";
+
     let name = $state('world');
     let submittedText = $state('');
 
@@ -23,10 +25,8 @@
      * @param {string} word
      */
     function reveal(word) {
-        // @ts-ignore
-        if (wordToCoordinates[word]) {
-            // @ts-ignore
-            wordToCoordinates[word].forEach(({ x, y, width, height }) => {
+        if (frescoData.words[word]) {
+            frescoData.words[word].forEach(({ x, y, width, height }) => {
                 ctx.clearRect(x, y, width, height);
             });
         }
@@ -44,7 +44,7 @@
 <!--/> 
 <img src={img_src} alt="Ambassadors">
 <-->
-<img src="/Hans_Holbein-The_Ambassadors.jpg" alt="Ambassadors" width="500" height="500">
+<img src={frescoData.filePath} alt="Ambassadors" width="500" height="500">
 <img src="/favicon.png" alt="favicon">
 <input type="text" bind:value={name} 
     onkeydown={(event) => { if(event.key === 'Enter') oninputsubmit(); }}
@@ -56,7 +56,7 @@
 {/if}
 
 <div class="game-container">
-    <img src="/Hans_Holbein-The_Ambassadors.jpg" alt="Hidden Painting" class="painting" />
+    <img src={frescoData.filePath} alt="Hidden Painting" class="painting" />
     <canvas bind:this={canvas} width="500" height="500"></canvas>
 </div>
 
