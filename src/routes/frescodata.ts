@@ -5,6 +5,8 @@ type FrescoData = {
     id: number;
     name: string;
     filePath: string;
+    width: number;  //Original image width, height
+    height: number;
     words: { [key: string]: Area[] }; 
 };
 
@@ -13,6 +15,8 @@ export const frescoData : FrescoData = {
     id: 0,
     name: "Ambassadors",
     filePath: "/Hans_Holbein-The_Ambassadors.jpg",
+    width: 1024, 
+    height: 1009,
     words: {
         hand: [[200, 200, 50, 80]],
         face: [[0, 0, 250, 250], [250, 250, 250, 250]],
