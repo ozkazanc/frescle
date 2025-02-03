@@ -26,7 +26,8 @@
      */
     function reveal(word) {
         if (frescoData.words[word]) {
-            frescoData.words[word].forEach(({ x, y, width, height }) => {
+            console.log("Found " + word)
+            frescoData.words[word].forEach(([x, y, width, height]) => {
                 ctx.clearRect(x, y, width, height);
             });
         }
