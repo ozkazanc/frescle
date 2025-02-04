@@ -35,7 +35,6 @@
                 ctx.clearRect(x, y, width, height);
             });
             updateGridSections(word);
-            //printValid();
         }
     }
     
@@ -71,7 +70,6 @@
 
         console.log("hello")
         createGrid(frescoData, ROW_COUNT, COL_COUNT)
-        //printValid()
     });
 </script>
 

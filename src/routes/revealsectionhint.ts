@@ -37,16 +37,6 @@ export function createGrid(frescoData : FrescoData, ROW_COUNT: number, COL_COUNT
             }
         });
     }
-    for(let i: number = 0; i < GRID_SIZE; i++){
-        //console.log(i, gridSections[i]);
-    }
-    for(const key in wordToGridIndices){
-        //console.log(key + " " + wordToGridIndices[key]);
-    }
-}
-
-function printValid(){
-    console.log("valid grid sections " + validGridSections);
 }
 
 // Called when a word is revealed
@@ -77,8 +67,5 @@ export function receiveRandomSectionWord() : string {
     
     // This word array should contain all the words that will reveal some part of the image, pick one at random.
     let randomWordArray : string[] = gridSections[randomIndexChoice];
-    //console.log("valid Index array " + validIndexArray)
-    //console.log(randomWordArray + " " + randomIndexChoice)
-    //printValid()
     return randomWordArray[Math.floor(Math.random() * randomWordArray.length)];
 }
