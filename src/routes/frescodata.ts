@@ -1,7 +1,7 @@
 //Area: x, y, width, height
 type Area = [number, number, number, number]
 
-type FrescoData = {
+export type FrescoData = {
     id: number;
     name: string;
     filePath: string;
@@ -37,7 +37,7 @@ export const frescoData : FrescoData = {
         death: [[266, 774, 476, 235]],
         dial: [[478, 266, 43, 88]],
         eye: [[222, 143, 62, 24], [837, 159, 55, 18], [331, 902, 100, 44], [494, 856, 77, 25]],
-        floor: [[0, 800, 1024, 212]],
+        floor: [[0, 800, 1024, 209]],
         french: [[30, 103, 430, 830], [703, 113, 304, 794]],
         friend: [[52, 107, 402, 814], [696, 117, 328, 795]],
         fur: [[16, 200, 440, 555]],

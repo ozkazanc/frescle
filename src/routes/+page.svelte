@@ -2,6 +2,7 @@
     //import img_src from '$lib/assets/Hans_Holbein-The_Ambassadors.jpg'
     import { onMount } from "svelte";
     import { frescoData } from "./frescodata";
+    import { createGrid } from "./revealsectionhint";
 
     let name = $state('dagger');
     let submittedText = $state('');
@@ -43,6 +44,8 @@
         ctx = canvas.getContext("2d");
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, canvas.width, canvas.height); // Full fog overlay
+        console.log("hello")
+        createGrid(frescoData)
     });
 </script>
 
