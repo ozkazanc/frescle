@@ -2,7 +2,7 @@
     //import img_src from '$lib/assets/Hans_Holbein-The_Ambassadors.jpg'
     import { onMount } from "svelte";
     import { frescoData } from "./frescodata";
-    import { createGrid } from "./revealsectionhint";
+    import { createGrid, updateGridSections, receiveRandomSectionWord } from "./revealsectionhint";
 
     let name = $state('dagger');
     let submittedText = $state('');
@@ -34,6 +34,8 @@
                 height *= scale;
                 ctx.clearRect(x, y, width, height);
             });
+            updateGridSections(word);
+            //printValid();
         }
     }
     
@@ -63,12 +65,13 @@
     onMount(() => {
         ctx = canvas.getContext("2d");
         ctx.fillStyle = "black";
-        //ctx.fillRect(0, 0, canvas.width, canvas.height); // Full fog overlay
+        ctx.fillRect(0, 0, canvas.width, canvas.height); // Full fog overlay
         
-        showGridLines();
+        //showGridLines();
 
         console.log("hello")
         createGrid(frescoData, ROW_COUNT, COL_COUNT)
+        //printValid()
     });
 </script>
 
@@ -80,6 +83,8 @@
 <input type="text" bind:value={name} use:grabFocus
     onkeydown={(/** @type {{ key: string; }} */ event) => { if(event.key === 'Enter') oninputsubmit(); }}
 >
+<button onclick={ () => reveal(receiveRandomSectionWord()) }>Reveal Random Area</button>
+
 <h1>{name}</h1>
 {#if submittedText !== ''}
     <p>{submittedText}</p>

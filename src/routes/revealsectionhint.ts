@@ -1,20 +1,19 @@
 import type { FrescoData } from "./frescodata";
 
-//const ROW_COUNT : number = 64;
-//const COL_COUNT : number = 64;
 let gridSections : string[][] = [];
-let wordToGridIndices: {[key : string]: number[]} = {};
+let validGridSections : boolean[] = [];
+let wordToGridIndices : {[key : string]: number[]} = {};
 
 export function createGrid(frescoData : FrescoData, ROW_COUNT: number, COL_COUNT: number){
     const GRID_SIZE : number = ROW_COUNT * COL_COUNT;
     for(let i: number = 0; i < GRID_SIZE; i++){
         gridSections.push([]);
+        validGridSections.push(false); // Every sections starts as invalid because there might not be any words for that section
     }
 
     let row_size: number = frescoData.height / ROW_COUNT;
     let col_size : number = frescoData.width / COL_COUNT;
     for(const key in frescoData.words){
-        //let wordAreas : Area[] = frescoData.words[key];
         console.log(key)
         wordToGridIndices[key] = []
         frescoData.words[key].forEach(([x, y, width, height]) => {
@@ -22,7 +21,7 @@ export function createGrid(frescoData : FrescoData, ROW_COUNT: number, COL_COUNT
             if(x === 0 && y === 0 && width === frescoData.width && height === frescoData.height)
                 return;
 
-            // we check against the min bc the data might go over the boundaries
+            // we check against the min bc the data might go over the boundaries of the fresc
             for(let i : number = y; Math.floor(i / row_size) * row_size < Math.min(height + y, frescoData.height); i += row_size){
                 let rowIdx : number = Math.floor(i / row_size);
 
@@ -32,20 +31,54 @@ export function createGrid(frescoData : FrescoData, ROW_COUNT: number, COL_COUNT
                     
                     //console.log("Index: " + gridIndex)
                     gridSections[gridIndex].push(key);
+                    validGridSections[gridIndex] =  true; // validate the grid index, mark it as something to be found
                     wordToGridIndices[key].push(gridIndex);
                 }
             }
         });
     }
     for(let i: number = 0; i < GRID_SIZE; i++){
-        console.log(i, gridSections[i]);
+        //console.log(i, gridSections[i]);
     }
     for(const key in wordToGridIndices){
-        console.log(key + " " + wordToGridIndices[key]);
+        //console.log(key + " " + wordToGridIndices[key]);
     }
-};
+}
 
-function coordinatesToGridIndex(point : {x: number, y: number}) : number{
+function printValid(){
+    console.log("valid grid sections " + validGridSections);
+}
 
-    return 0;
-};
+// Called when a word is revealed
+export function updateGridSections(word : string){
+    if(!wordToGridIndices[word]) return;  // This should not be possible
+    
+    let wordIndices : number[] = wordToGridIndices[word];
+    for(const idx of wordIndices){
+        validGridSections[idx] = false; // Make all the word's grid indices invalid, so that they cannot be chosen at random anymore.
+    }
+}
+
+// Called to receive a random word (hopefully still not revealed)
+export function receiveRandomSectionWord() : string {
+    // Create an array of all the valid indices
+    let validIndexArray : number[] = [];
+    for(let i : number = 0; i < validGridSections.length; i++){
+        if(validGridSections[i]){
+            validIndexArray.push(i);
+        }
+    }
+    
+    // If there is none, we must have cleared all the sections already.
+    if (validIndexArray.length == 0) return "Found it all!";
+    
+    // Pick one at random
+    let randomIndexChoice : number = validIndexArray[Math.floor(Math.random() * validIndexArray.length)];
+    
+    // This word array should contain all the words that will reveal some part of the image, pick one at random.
+    let randomWordArray : string[] = gridSections[randomIndexChoice];
+    //console.log("valid Index array " + validIndexArray)
+    //console.log(randomWordArray + " " + randomIndexChoice)
+    //printValid()
+    return randomWordArray[Math.floor(Math.random() * randomWordArray.length)];
+}
