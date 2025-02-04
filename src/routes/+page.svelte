@@ -17,8 +17,10 @@
     let canvas = $state();
     let ctx = $state();
     
-    let scale = 0.5
+    let scale = 0.75;
 
+    const ROW_COUNT = 64;
+    const COL_COUNT = 64;
     /**
      * @param {string} word
      */
@@ -39,13 +41,34 @@
      * @param {HTMLInputElement} node
      */
     function grabFocus(node) { node.focus(); }
-
+    function showGridLines() {
+        for(let i = 0; i < ROW_COUNT; i++){
+            let rowY = i * frescoData.height / ROW_COUNT;
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = "red";
+            ctx.moveTo(0, rowY);
+            ctx.lineTo(frescoData.width, rowY);
+            ctx.stroke();
+        }
+        
+        for(let i = 0; i < COL_COUNT; i++){
+            let rowX = i * frescoData.width / COL_COUNT;
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = "red";
+            ctx.moveTo(rowX, 0);
+            ctx.lineTo(rowX, frescoData.height);
+            ctx.stroke();
+        }
+    }
     onMount(() => {
         ctx = canvas.getContext("2d");
         ctx.fillStyle = "black";
-        ctx.fillRect(0, 0, canvas.width, canvas.height); // Full fog overlay
+        //ctx.fillRect(0, 0, canvas.width, canvas.height); // Full fog overlay
+        
+        showGridLines();
+
         console.log("hello")
-        createGrid(frescoData)
+        createGrid(frescoData, ROW_COUNT, COL_COUNT)
     });
 </script>
 

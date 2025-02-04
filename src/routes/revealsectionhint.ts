@@ -1,11 +1,12 @@
 import type { FrescoData } from "./frescodata";
 
-const ROW_COUNT : number = 16;
-const COL_COUNT : number = 16;
-const GRID_SIZE : number = ROW_COUNT * COL_COUNT;
+//const ROW_COUNT : number = 64;
+//const COL_COUNT : number = 64;
 let gridSections : string[][] = [];
+let wordToGridIndices: {[key : string]: number[]} = {};
 
-export function createGrid(frescoData : FrescoData){
+export function createGrid(frescoData : FrescoData, ROW_COUNT: number, COL_COUNT: number){
+    const GRID_SIZE : number = ROW_COUNT * COL_COUNT;
     for(let i: number = 0; i < GRID_SIZE; i++){
         gridSections.push([]);
     }
@@ -15,6 +16,7 @@ export function createGrid(frescoData : FrescoData){
     for(const key in frescoData.words){
         //let wordAreas : Area[] = frescoData.words[key];
         console.log(key)
+        wordToGridIndices[key] = []
         frescoData.words[key].forEach(([x, y, width, height]) => {
             // For full sized areas like answers, don't add them to the grid sections
             if(x === 0 && y === 0 && width === frescoData.width && height === frescoData.height)
@@ -30,12 +32,16 @@ export function createGrid(frescoData : FrescoData){
                     
                     //console.log("Index: " + gridIndex)
                     gridSections[gridIndex].push(key);
+                    wordToGridIndices[key].push(gridIndex);
                 }
             }
         });
     }
     for(let i: number = 0; i < GRID_SIZE; i++){
         console.log(i, gridSections[i]);
+    }
+    for(const key in wordToGridIndices){
+        console.log(key + " " + wordToGridIndices[key]);
     }
 };
 
