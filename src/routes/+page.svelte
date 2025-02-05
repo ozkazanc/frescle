@@ -37,6 +37,7 @@
             });
             updateGridSections(word);
             percentageCleared = clearPercentage();
+            
             // If there are no valid grid sections left, reveal the entire image
             // (This is done to get rid of weird uncleared fog inbetween word areas)
             if(percentageCleared === 1) {

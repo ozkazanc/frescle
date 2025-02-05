@@ -1,5 +1,6 @@
 import type { FrescoData } from "./frescodata";
 
+let answerKey: string[] = []; // All the words that reveal the entire fresc.
 let gridSections : string[][] = [];
 let validGridSections : boolean[] = [];
 let wordToGridIndices : {[key : string]: number[]} = {};
@@ -18,8 +19,12 @@ export function createGrid(frescoData : FrescoData, ROW_COUNT: number, COL_COUNT
         wordToGridIndices[key] = []
         frescoData.words[key].forEach(([x, y, width, height]) => {
             // For full sized areas like answers, don't add them to the grid sections
-            if(x === 0 && y === 0 && width === frescoData.width && height === frescoData.height)
+            // but add them to the answerKey 
+            if(x === 0 && y === 0 && width === frescoData.width && height === frescoData.height){
+                answerKey.push(key);
+                delete wordToGridIndices[key] // Remove the key from the dictionary
                 return;
+            }
 
             // we check against the min bc the data might go over the boundaries of the fresc
             for(let i : number = y; Math.floor(i / row_size) * row_size < Math.min(height + y, frescoData.height); i += row_size){
@@ -41,11 +46,18 @@ export function createGrid(frescoData : FrescoData, ROW_COUNT: number, COL_COUNT
 
 // Called when a word is revealed
 export function updateGridSections(word : string){
-    if(!wordToGridIndices[word]) return;  // This should not be possible
-    
-    let wordIndices : number[] = wordToGridIndices[word];
-    for(const idx of wordIndices){
-        validGridSections[idx] = false; // Make all the word's grid indices invalid, so that they cannot be chosen at random anymore.
+    // The word is either an answer or belongs to some grids.
+    if(wordToGridIndices[word]){
+        let wordIndices : number[] = wordToGridIndices[word];
+        for(const idx of wordIndices){
+            validGridSections[idx] = false; // Make all the word's grid indices invalid, so that they cannot be chosen at random anymore.
+        }
+    }
+    else if(answerKey.includes(word)) {
+        validGridSections.forEach((_, index) => validGridSections[index] = false);
+    }
+    else {
+        console.error("[updateGridSections]: Received a non-existant word!"); // This should not be possible
     }
 }
 
