@@ -69,3 +69,11 @@ export function receiveRandomSectionWord() : string {
     let randomWordArray : string[] = gridSections[randomIndexChoice];
     return randomWordArray[Math.floor(Math.random() * randomWordArray.length)];
 }
+
+export function clearPercentage(): number {
+    let gridSectionCount: number = validGridSections.length;
+    let validSectionCount: number = validGridSections.reduce((acc, cur) => acc += cur ? 1 : 0, 0);
+    
+    //console.log(1 - validSectionCount / gridSectionCount);
+    return 1 - validSectionCount / gridSectionCount;
+}

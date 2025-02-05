@@ -2,22 +2,23 @@
     //import img_src from '$lib/assets/Hans_Holbein-The_Ambassadors.jpg'
     import { onMount } from "svelte";
     import { frescoData } from "./frescodata";
-    import { createGrid, updateGridSections, receiveRandomSectionWord } from "./revealsectionhint";
+    import { createGrid, updateGridSections, receiveRandomSectionWord, clearPercentage } from "./revealsectionhint";
 
     let name = $state('dagger');
     let submittedText = $state('');
+    let percentageCleared = $state(0);
 
     function oninputsubmit() {
         if(name === '') return;
         submittedText = name;
-        reveal(submittedText)
+        reveal(submittedText.toLowerCase())
         name = '';
     }
 
     let canvas = $state();
     let ctx = $state();
     
-    let scale = 0.75;
+    let scale = 0.7;
 
     const ROW_COUNT = 64;
     const COL_COUNT = 64;
@@ -35,6 +36,12 @@
                 ctx.clearRect(x, y, width, height);
             });
             updateGridSections(word);
+            percentageCleared = clearPercentage();
+            // If there are no valid grid sections left, reveal the entire image
+            // (This is done to get rid of weird uncleared fog inbetween word areas)
+            if(percentageCleared === 1) {
+                ctx.clearRect(0, 0, frescoData.width, frescoData.height);
+            }
         }
     }
     
@@ -79,6 +86,8 @@
 <!--/> 
 <img src={img_src} alt="Ambassadors">
 <-->
+<p>What's in the fresco?</p>
+<p>Cleared {Math.floor(percentageCleared * 100)}% of fresco!</p>
 <input type="text" bind:value={name} use:grabFocus
     onkeydown={(/** @type {{ key: string; }} */ event) => { if(event.key === 'Enter') oninputsubmit(); }}
 >
