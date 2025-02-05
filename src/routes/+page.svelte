@@ -68,8 +68,9 @@
         
         //showGridLines();
 
-        console.log("hello")
-        createGrid(frescoData, ROW_COUNT, COL_COUNT)
+        console.log("hello");
+        createGrid(frescoData, ROW_COUNT, COL_COUNT);
+        reveal("_start");
     });
 </script>
 
