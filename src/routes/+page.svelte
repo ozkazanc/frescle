@@ -2,11 +2,15 @@
     //import img_src from '$lib/assets/Hans_Holbein-The_Ambassadors.jpg'
     import { onMount } from "svelte";
     import { frescoData } from "./frescodata";
-    import { createGrid, updateGridSections, receiveRandomSectionWord, clearPercentage } from "./revealsectionhint";
+    import { createGrid, updateGridSections, receiveRandomSectionWord, clearPercentage, resetGrid } from "./revealsectionhint";
 
     let name = $state('dagger');
     let submittedText = $state('');
+    
     let percentageCleared = $state(0);
+    let percentageClearedWithoutHints = $state(0);
+    $inspect(percentageCleared);
+    $inspect(percentageClearedWithoutHints);
 
     function oninputsubmit() {
         if(name === '') return;
@@ -25,7 +29,7 @@
     /**
      * @param {string} word
      */
-    function reveal(word) {
+    function reveal(word, hint=false) {
         if (frescoData.words[word]) {
             console.log("Found " + word)
             frescoData.words[word].forEach(([x, y, width, height]) => {
@@ -36,12 +40,17 @@
                 ctx.clearRect(x, y, width, height);
             });
             updateGridSections(word);
+            
+            let oldPercentage = percentageCleared;
             percentageCleared = clearPercentage();
+            percentageClearedWithoutHints += hint ? 0 : percentageCleared - oldPercentage;
+            
             
             // If there are no valid grid sections left, reveal the entire image
             // (This is done to get rid of weird uncleared fog inbetween word areas)
             if(percentageCleared === 1) {
                 ctx.clearRect(0, 0, frescoData.width, frescoData.height);
+                console.log("Fresc is revealed!");
             }
         }
     }
@@ -70,13 +79,14 @@
         }
     }
     onMount(() => {
+        console.log("hello");
         ctx = canvas.getContext("2d");
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, canvas.width, canvas.height); // Full fog overlay
         
         //showGridLines();
 
-        console.log("hello");
+        resetGrid()
         createGrid(frescoData, ROW_COUNT, COL_COUNT);
         reveal("_start");
     });
@@ -87,12 +97,12 @@
 <!--/> 
 <img src={img_src} alt="Ambassadors">
 <-->
-<p>What's in the fresco?</p>
-<p>Cleared {Math.floor(percentageCleared * 100)}% of fresco!</p>
+<p>What's in the Fresco?</p>
+<p>Cleared {Math.floor(percentageCleared * 100)}% of fresco and {Math.floor(percentageClearedWithoutHints * 100)}% without hints!</p>
 <input type="text" bind:value={name} use:grabFocus
     onkeydown={(/** @type {{ key: string; }} */ event) => { if(event.key === 'Enter') oninputsubmit(); }}
 >
-<button onclick={ () => reveal(receiveRandomSectionWord()) }>Reveal Random Area</button>
+<button onclick={ () => reveal(receiveRandomSectionWord(), true) }>Reveal Random Area</button>
 
 <h1>{name}</h1>
 {#if submittedText !== ''}
