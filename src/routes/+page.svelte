@@ -95,10 +95,11 @@
 
     function grabFocus(node: HTMLInputElement) { node.focus(); }
     function showGridLines() {
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = "green";
+        
         for(let i = 0; i < ROW_COUNT; i++){
             let rowY = i * frescoData.height / ROW_COUNT;
-            ctx.lineWidth = 1;
-            ctx.strokeStyle = "red";
             ctx.moveTo(0, rowY);
             ctx.lineTo(frescoData.width, rowY);
             ctx.stroke();
@@ -106,20 +107,52 @@
         
         for(let i = 0; i < COL_COUNT; i++){
             let rowX = i * frescoData.width / COL_COUNT;
-            ctx.lineWidth = 1;
-            ctx.strokeStyle = "red";
             ctx.moveTo(rowX, 0);
             ctx.lineTo(rowX, frescoData.height);
             ctx.stroke();
         }
     }
+    function showRevealAreas() {
+        ctx.lineWidth = 1;
+        ctx.fillStyle = `rgba(255, 0, 255, 0.15)`;
+        for(let word in frescoData.words){
+            console.log(word);
+            frescoData.words[word].forEach(([x, y, width, height]: [number, number, number, number]) => {
+                x *= scale;
+                y *= scale;
+                width *= scale;
+                height *= scale;
+                ctx.fillRect(x, y, width, height);
+            });
+        }
+        
+    }
+
+    function showRevealBorders() {
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = `rgb(255, 0, 255)`;
+        for(let word in frescoData.words){
+            console.log(word);
+            frescoData.words[word].forEach(([x, y, width, height]: [number, number, number, number]) => {
+                x *= scale;
+                y *= scale;
+                width *= scale;
+                height *= scale;
+                ctx.strokeRect(x, y, width, height);
+            });
+        }
+        
+    }
+
     onMount(() => {
         console.log("hello");
         ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, canvas.width, canvas.height); // Full fog overlay
         
-        //showGridLines();
+        showGridLines();
+        //showRevealAreas();
+        showRevealBorders();
 
         createGrid(frescoData, ROW_COUNT, COL_COUNT);
         reveal("_start");
