@@ -29,6 +29,22 @@
         return `${hours}:${mins}:${secs}`
     });
 
+    let score = $derived.by(() => {
+        // Score constants
+        const maxScore = 500;
+        const minScore = 100;
+        const minTime = 60;
+        const maxTime = 400 + minTime; // Interval is 5 minutes.
+
+        // a is the percentage of distance between 2 points. (ie a = 0.3 means we are 30% away from x and 70% away from y)
+        const lerp = (x: number, y: number, a: number) => x * (1 - a) + y * a;
+        
+        const a = (elapsedSeconds - minTime) / (maxTime - minTime);
+        const base_score = elapsedSeconds <= minTime ? maxScore : lerp(maxScore, minScore, a); // The lerp values are switched bc we are losing points as time passes
+        
+        return Math.floor(base_score * percentageClearedWithoutHints);
+    });
+
     //let startTime: Date;
    // let time = $derived(Date.now() - startTime);
 
@@ -121,20 +137,21 @@
 </script>
 
 {#if completed}
-    <h1>{frescoData.artist}, <i>{frescoData.name}</i>, {frescoData.year}</h1>
+    <h1>{frescoData.artist}, <i>{frescoData.name}</i>, {frescoData.year}<br/>Score: {score}</h1>
 {/if}
-<p>What's in the Fresco?</p>
 <!--/> 
 <img src={img_src} alt="Ambassadors">
 <-->
 <p>Timer: {stopWatch}</p>
 <p>Cleared {Math.floor(percentageCleared * 100)}% of fresco and {Math.floor(percentageClearedWithoutHints * 100)}% without hints!</p>
+
+<p>What's in the Fresco?</p>
 <input type="text" bind:value={name} use:grabFocus
     onkeydown={(/** @type {{ key: string; }} */ event) => { if(event.key === 'Enter') oninputsubmit(); }}
 >
 <button onclick={ () => reveal(receiveRandomSectionWord(), true) }>Reveal Random Area</button>
 
-<h1>{name}</h1>
+<h3>{name}</h3>
 {#if submittedText !== ''}
     <p>{submittedText}</p>
     <script>alert('hey')</script>
