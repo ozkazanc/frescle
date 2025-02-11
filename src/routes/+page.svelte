@@ -3,6 +3,9 @@
     import { onMount } from "svelte";
     import { frescoData } from "$lib/frescodata";
     import { createGrid, updateGridSections, receiveRandomSectionWord, clearPercentage } from "$lib/frescosections";
+    
+    //import type { PageProps } from "./$types";
+    //let { data }: PageProps = $props();
 
     let name: string = $state('dagger');
     let submittedText: string = $state('');
@@ -11,6 +14,22 @@
     let percentageClearedWithoutHints: number = $state(0);
     $inspect(percentageCleared);
     $inspect(percentageClearedWithoutHints);
+
+    let timerIntervalId: number = 0;
+    let elapsedSeconds = $state(0);
+    let ss = $derived(elapsedSeconds % 60);
+    let mm = $derived(Math.floor(elapsedSeconds / 60) % 60);
+    let hh = $derived(Math.floor(elapsedSeconds / 3600));
+    let stopWatch: string = $derived.by(() =>{
+        let hours = hh < 10 ? '0' + hh : hh;
+        let mins = mm < 10 ? '0' + mm : mm;
+        let secs = ss < 10 ? '0' + ss : ss;
+
+        return `${hours}:${mins}:${secs}`
+    });
+
+    //let startTime: Date;
+   // let time = $derived(Date.now() - startTime);
 
     function oninputsubmit() {
         if(name === '') return;
@@ -49,6 +68,8 @@
             if(percentageCleared === 1) {
                 ctx.clearRect(0, 0, frescoData.width, frescoData.height);
                 console.log("Fresc is revealed!");
+                clearInterval(timerIntervalId); // Stop the timer
+                console.log("Finished in " + stopWatch);
             }
         }
     }
@@ -84,11 +105,21 @@
 
         createGrid(frescoData, ROW_COUNT, COL_COUNT);
         reveal("_start");
+
+        const stopWatchTick = setInterval(() => {
+            elapsedSeconds += 1;
+        }, 1000);
+        
+        timerIntervalId = stopWatchTick;
+
+        return () => {
+            clearInterval(stopWatchTick);
+        };
     });
 </script>
 
 <h1>Welcome to SvelteKit kiddo</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<p>Timer: {stopWatch}</p>
 <!--/> 
 <img src={img_src} alt="Ambassadors">
 <-->
