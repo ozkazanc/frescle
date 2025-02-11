@@ -1,18 +1,14 @@
-<script>
+<script lang="ts">
     //import img_src from '$lib/assets/Hans_Holbein-The_Ambassadors.jpg'
     import { onMount } from "svelte";
-    //import { frescoData } from "$lib/frescodata";
+    import { frescoData } from "$lib/frescodata";
     import { createGrid, updateGridSections, receiveRandomSectionWord, clearPercentage } from "$lib/frescosections";
-    //import type { FrescoData } from "$lib/frescodata.js";
 
-    let { data } = $props();
-    let fresco = $state(JSON.parse(data.fresco));
-
-    let name = $state('dagger');
-    let submittedText = $state('');
+    let name: string = $state('dagger');
+    let submittedText: string = $state('');
     
-    let percentageCleared = $state(0);
-    let percentageClearedWithoutHints = $state(0);
+    let percentageCleared: number = $state(0);
+    let percentageClearedWithoutHints: number = $state(0);
     $inspect(percentageCleared);
     $inspect(percentageClearedWithoutHints);
 
@@ -23,21 +19,18 @@
         name = '';
     }
 
-    let canvas = $state();
-    let ctx = $state();
+    let canvas = $state() as HTMLCanvasElement;
+    let ctx = $state() as CanvasRenderingContext2D;
     
     let scale = 0.7;
 
     const ROW_COUNT = 64;
     const COL_COUNT = 64;
-    /**
-     * @param {string} word
-     */
-    function reveal(word, hint=false) {
-        if (fresco.words[word]) {
+
+    function reveal(word: string, hint: boolean=false) {
+        if (frescoData.words[word]) {
             console.log("Found " + word)
-            // @ts-ignore
-            fresco.words[word].forEach(([x, y, width, height]) => {
+            frescoData.words[word].forEach(([x, y, width, height]: [number, number, number, number]) => {
                 x *= scale;
                 y *= scale;
                 width *= scale;
@@ -54,46 +47,42 @@
             // If there are no valid grid sections left, reveal the entire image
             // (This is done to get rid of weird uncleared fog inbetween word areas)
             if(percentageCleared === 1) {
-                ctx.clearRect(0, 0, fresco.width, fresco.height);
+                ctx.clearRect(0, 0, frescoData.width, frescoData.height);
                 console.log("Fresc is revealed!");
             }
         }
     }
     
-    /**
-     * @param {HTMLInputElement} node
-     */
-    function grabFocus(node) { node.focus(); }
+
+    function grabFocus(node: HTMLInputElement) { node.focus(); }
     function showGridLines() {
         for(let i = 0; i < ROW_COUNT; i++){
-            let rowY = i * fresco.height / ROW_COUNT;
+            let rowY = i * frescoData.height / ROW_COUNT;
             ctx.lineWidth = 1;
             ctx.strokeStyle = "red";
             ctx.moveTo(0, rowY);
-            ctx.lineTo(fresco.width, rowY);
+            ctx.lineTo(frescoData.width, rowY);
             ctx.stroke();
         }
         
         for(let i = 0; i < COL_COUNT; i++){
-            let rowX = i * fresco.width / COL_COUNT;
+            let rowX = i * frescoData.width / COL_COUNT;
             ctx.lineWidth = 1;
             ctx.strokeStyle = "red";
             ctx.moveTo(rowX, 0);
-            ctx.lineTo(rowX, fresco.height);
+            ctx.lineTo(rowX, frescoData.height);
             ctx.stroke();
         }
     }
     onMount(() => {
         console.log("hello");
-        console.log(data.fresco);
-
-        ctx = canvas.getContext("2d");
+        ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, canvas.width, canvas.height); // Full fog overlay
         
         //showGridLines();
 
-        createGrid(fresco, ROW_COUNT, COL_COUNT);
+        createGrid(frescoData, ROW_COUNT, COL_COUNT);
         reveal("_start");
     });
 </script>
@@ -117,8 +106,8 @@
 {/if}
 
 <div class="game-container">
-    <img src={fresco.filePath} alt="Hidden Painting" class="painting" width={fresco.width * scale} height={fresco.height * scale}>
-    <canvas bind:this={canvas} width={fresco.width * scale} height={fresco.height * scale}></canvas>
+    <img src={frescoData.filePath} alt="Hidden Painting" class="painting" width={frescoData.width * scale} height={frescoData.height * scale}>
+    <canvas bind:this={canvas} width={frescoData.width * scale} height={frescoData.height * scale}></canvas>
 </div>
 
 <style>
