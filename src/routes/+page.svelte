@@ -10,6 +10,7 @@
     let name: string = $state('dagger');
     let submittedText: string = $state('');
     
+    let completed =  $state(false);
     let percentageCleared: number = $state(0);
     let percentageClearedWithoutHints: number = $state(0);
     $inspect(percentageCleared);
@@ -70,6 +71,7 @@
                 console.log("Fresc is revealed!");
                 clearInterval(timerIntervalId); // Stop the timer
                 console.log("Finished in " + stopWatch);
+                completed = true;
             }
         }
     }
@@ -118,12 +120,14 @@
     });
 </script>
 
-<h1>Welcome to SvelteKit kiddo</h1>
-<p>Timer: {stopWatch}</p>
+{#if completed}
+    <h1>{frescoData.artist}, <i>{frescoData.name}</i>, {frescoData.year}</h1>
+{/if}
+<p>What's in the Fresco?</p>
 <!--/> 
 <img src={img_src} alt="Ambassadors">
 <-->
-<p>What's in the Fresco?</p>
+<p>Timer: {stopWatch}</p>
 <p>Cleared {Math.floor(percentageCleared * 100)}% of fresco and {Math.floor(percentageClearedWithoutHints * 100)}% without hints!</p>
 <input type="text" bind:value={name} use:grabFocus
     onkeydown={(/** @type {{ key: string; }} */ event) => { if(event.key === 'Enter') oninputsubmit(); }}

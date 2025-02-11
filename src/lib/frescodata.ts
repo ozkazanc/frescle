@@ -4,6 +4,8 @@ type Area = [number, number, number, number]
 export type FrescoData = {
     id: number;
     name: string;
+    artist: string;
+    year: string;
     filePath: string;
     width: number;  //Original image width, height
     height: number;
@@ -13,7 +15,9 @@ export type FrescoData = {
 
 export const frescoData : FrescoData = {
     id: 0,
-    name: "Ambassadors",
+    name: "The Ambassadors",
+    artist: "Hans Holbein",
+    year: "1533",
     filePath: "/Hans_Holbein-The_Ambassadors.jpg",
     width: 1024, 
     height: 1009,
