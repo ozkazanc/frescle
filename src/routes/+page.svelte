@@ -1,8 +1,8 @@
 <script>
     //import img_src from '$lib/assets/Hans_Holbein-The_Ambassadors.jpg'
     import { onMount } from "svelte";
-    import { frescoData } from "./frescodata";
-    import { createGrid, updateGridSections, receiveRandomSectionWord, clearPercentage, resetGrid } from "./revealsectionhint";
+    import { frescoData } from "$lib/frescodata";
+    import { createGrid, updateGridSections, receiveRandomSectionWord, clearPercentage } from "$lib/frescosections";
 
     let name = $state('dagger');
     let submittedText = $state('');
@@ -86,7 +86,6 @@
         
         //showGridLines();
 
-        resetGrid()
         createGrid(frescoData, ROW_COUNT, COL_COUNT);
         reveal("_start");
     });

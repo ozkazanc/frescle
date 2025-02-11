@@ -1,11 +1,11 @@
-import type { FrescoData } from "./frescodata";
+import type { FrescoData } from "$lib/frescodata";
 
 let answerKey: string[] = []; // All the words that reveal the entire fresc.
 let gridSections : string[][] = [];
 let validGridSections : boolean[] = [];
 let wordToGridIndices : {[key : string]: number[]} = {};
 
-export function resetGrid(){
+function resetGrid(){
     answerKey = [];
     gridSections = [];
     validGridSections = [];
@@ -13,6 +13,7 @@ export function resetGrid(){
 }
 
 export function createGrid(frescoData : FrescoData, ROW_COUNT: number, COL_COUNT: number){
+    resetGrid();
     const GRID_SIZE : number = ROW_COUNT * COL_COUNT;
     for(let i: number = 0; i < GRID_SIZE; i++){
         gridSections.push([]);
