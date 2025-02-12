@@ -22,10 +22,10 @@ export function createGrid(frescoData : FrescoData, ROW_COUNT: number, COL_COUNT
 
     let row_size: number = frescoData.height / ROW_COUNT;
     let col_size : number = frescoData.width / COL_COUNT;
-    for(const key in frescoData.words){
+    for(const key in frescoData.keywords){
         //console.log(key)
         wordToGridIndices[key] = []
-        frescoData.words[key].forEach(([x, y, width, height]) => {
+        frescoData.keywords[key].forEach(([x, y, width, height]) => {
             // For full sized areas like answers, don't add them to the grid sections
             // but add them to the answerKey 
             if(x === 0 && y === 0 && width === frescoData.width && height === frescoData.height){

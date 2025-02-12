@@ -64,9 +64,9 @@
     const COL_COUNT = 64;
 
     function reveal(word: string, hint: boolean=false) {
-        if (frescoData.words[word]) {
+        if (frescoData.keywords[word]) {
             console.log("Found " + word)
-            frescoData.words[word].forEach(([x, y, width, height]: [number, number, number, number]) => {
+            frescoData.keywords[word].forEach(([x, y, width, height]: [number, number, number, number]) => {
                 x *= scale;
                 y *= scale;
                 width *= scale;
@@ -115,9 +115,9 @@
     function showRevealAreas() {
         ctx.lineWidth = 1;
         ctx.fillStyle = `rgba(255, 0, 255, 0.15)`;
-        for(let word in frescoData.words){
+        for(let word in frescoData.keywords){
             console.log(word);
-            frescoData.words[word].forEach(([x, y, width, height]: [number, number, number, number]) => {
+            frescoData.keywords[word].forEach(([x, y, width, height]: [number, number, number, number]) => {
                 x *= scale;
                 y *= scale;
                 width *= scale;
@@ -131,9 +131,9 @@
     function showRevealBorders() {
         ctx.lineWidth = 1;
         ctx.strokeStyle = `rgb(255, 0, 255)`;
-        for(let word in frescoData.words){
+        for(let word in frescoData.keywords){
             console.log(word);
-            frescoData.words[word].forEach(([x, y, width, height]: [number, number, number, number]) => {
+            frescoData.keywords[word].forEach(([x, y, width, height]: [number, number, number, number]) => {
                 x *= scale;
                 y *= scale;
                 width *= scale;
@@ -150,9 +150,9 @@
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, canvas.width, canvas.height); // Full fog overlay
         
-        showGridLines();
+        //showGridLines();
         //showRevealAreas();
-        showRevealBorders();
+        //showRevealBorders();
 
         createGrid(frescoData, ROW_COUNT, COL_COUNT);
         reveal("_start");
