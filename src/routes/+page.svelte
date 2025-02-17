@@ -85,7 +85,7 @@
             
             // If there are no valid grid sections left, reveal the entire image
             // (This is done to get rid of weird uncleared fog inbetween word areas)
-            if(percentageCleared === 1) {
+            if(percentageCleared >= 0.995) {
                 ctx.clearRect(0, 0, frescoData.width, frescoData.height);
                 console.log("Fresc is revealed!");
                 clearInterval(timerIntervalId); // Stop the timer
