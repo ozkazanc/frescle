@@ -64,6 +64,9 @@
     const COL_COUNT = 64;
 
     function reveal(word: string, hint: boolean=false) {
+        // If the given word is a synonym, turn it into the corresponding keyword.
+        word = frescoData.synonyms_to_keyword[word] ?? word;
+
         if (frescoData.keywords[word]) {
             console.log("Found " + word)
             frescoData.keywords[word].forEach(([x, y, width, height]: [number, number, number, number]) => {
