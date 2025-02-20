@@ -6,12 +6,16 @@ export type FrescoData = {
     name: string;
     artist: string;
     year: string;
+    
     filePath: string;
     width: number;  //Original image width, height
     height: number;
+    
     keywords: { [key: string]: Area[] };
     synonyms_to_keyword: { [key: string]: string };
     keyword_to_synonyms: { [key: string]: string[] };
+
+    hints: string[];
 };
 
 // ^\s*(.*): \[.*$ regex to match the keys to feed them to ChatGPT for synonyms.
@@ -38,12 +42,14 @@ export const frescoData : FrescoData = {
         church: [[0, 0, 24, 85], [755, 96, 232, 258]],
         clothes: [[62, 211, 392, 292], [794, 220, 188, 659]],
         crucifix: [[0, 0, 23, 94]],
-        curtain: [[30, 0, 150, 280], [6, 100, 35, 610], [453, 484, 310, 70], [500, 560, 100, 50], [30, 0, 1005, 110], [288, 102, 388, 103], [915, 0, 110, 255], [991, 265, 33, 460], [706, 104, 122, 152], [480, 153, 187, 123], [667, 83, 60, 60]],
+        curtain: [[30, 0, 150, 280], [6, 100, 35, 610], [453, 484, 310, 70], [500, 560, 100, 50], [30, 0, 1005, 110], [288, 102, 388, 103], [915, 0, 110, 255], 
+        [991, 265, 33, 460], [706, 104, 122, 152], [480, 153, 187, 123], [667, 83, 60, 60]],
         dagger: [[95, 495, 190, 90]],
         dark: [[0, 743, 700, 90], [226, 407, 117, 318]],
         death: [[266, 774, 476, 235]],
         dial: [[478, 266, 43, 88]],
         eye: [[222, 143, 62, 24], [837, 159, 55, 18], [331, 902, 100, 44], [494, 856, 77, 25]],
+        fabric: [[57, 403, 184, 122], [464, 21, 216, 96], [323, 331, 91, 229], [621, 367, 150, 133], [806, 562, 161, 233]],
         face: [[216, 129, 70, 79], [837, 143, 65, 78]],
         floor: [[0, 800, 1024, 209]],
         french: [[30, 103, 430, 830], [703, 113, 304, 794]],
@@ -52,7 +58,8 @@ export const frescoData : FrescoData = {
         georges: [[701, 93, 300, 271]],
         globe: [[409, 546, 103, 105], [374, 190, 133, 120]],
         glove: [[769, 264, 80, 74]],
-        hair: [[0, 258, 74, 500], [26, 205, 129, 158], [137, 214, 84, 291], [0, 541, 167, 244], [285, 195, 157, 490], [893, 155, 32, 53], [821, 157, 17, 38], [186, 155, 35, 42], [241, 115, 48, 21], [278, 127, 23, 54], [845, 195, 39, 18], [231, 184, 50, 22], [197, 185, 103, 57], [830, 191, 75, 49]],
+        hair: [[0, 258, 74, 500], [26, 205, 129, 158], [137, 214, 84, 291], [0, 541, 167, 244], [285, 195, 157, 490], [893, 155, 32, 53], [821, 157, 17, 38], 
+        [186, 155, 35, 42], [241, 115, 48, 21], [278, 127, 23, 54], [845, 195, 39, 18], [231, 184, 50, 22], [197, 185, 103, 57], [830, 191, 75, 49]],
         hand: [[160, 505, 66, 66], [438, 350, 69, 69], [758, 302, 67, 52], [860, 488, 72, 61]],
         hat: [[169, 89, 128, 76], [813, 103, 127, 62]],
         head: [[200, 117, 93, 103], [825, 138, 83, 89]],
@@ -64,9 +71,11 @@ export const frescoData : FrescoData = {
         limb: [[160, 505, 66, 66], [438, 350, 69, 69], [758, 302, 67, 52], [860, 488, 72, 61], [144, 711, 96, 226], [281, 657, 127, 230]],
         lute: [[524, 550, 260, 100]],
         man: [[190, 98, 111, 138], [812, 118, 120, 112]],
-        material: [[464, 21, 216, 96], [57, 403, 184, 122], [323, 331, 91, 229], [621, 367, 150, 133], [343, 700, 104, 152], [806, 562, 161, 233], [416, 211, 64, 67], [571, 796, 142, 52], [539, 913, 231, 81]],
+        material: [[464, 21, 216, 96], [57, 403, 184, 122], [323, 331, 91, 229], [621, 367, 150, 133], [343, 700, 104, 152], [806, 562, 161, 233], [416, 211, 64, 67], 
+        [571, 796, 142, 52], [539, 913, 231, 81]],
         "memento mori": [[266, 774, 476, 235]],
-        mouth: [[239, 191, 36, 16], [849, 197, 26, 15], [365, 959, 26, 8], [374, 949, 29, 8], [401, 935, 32, 11], [434, 924, 17, 11], [452, 911, 27, 10], [473, 899, 36, 15], [508, 883, 29, 17], [540, 867, 31, 22]],
+        mouth: [[239, 191, 36, 16], [849, 197, 26, 15], [365, 959, 26, 8], [374, 949, 29, 8], [401, 935, 32, 11], [434, 924, 17, 11], [452, 911, 27, 10], [473, 899, 36, 15], 
+        [508, 883, 29, 17], [540, 867, 31, 22]],
         music: [[525, 553, 258, 169]],
         mustasche: [[845, 195, 39, 18], [231, 184, 50, 22]],
         necklace: [[176, 215, 142, 192]],
@@ -99,15 +108,18 @@ export const frescoData : FrescoData = {
       "carpets": "carpet", "rug": "carpet", "rugs": "carpet", "mat": "carpet", "mats": "carpet", "flooring": "carpet", "covering": "carpet", "coverings": "carpet",
       "cheeks": "cheek", "jowl": "cheek", "jowls": "cheek",
       "jesus": "christ", "savior": "christ", "deity": "christ", "deities": "christ", "figure": "christ", "figures": "christ",
-      "churches": "church", "chapel": "church", "chapels": "church", "cathedral": "church", "cathedrals": "church", "building": "church", "buildings": "church", "sanctuary": "church", "sanctuaries": "church",
+      "churches": "church", "chapel": "church", "chapels": "church", "cathedral": "church", "cathedrals": "church", "building": "church", "buildings": "church", 
+      "sanctuary": "church", "sanctuaries": "church",
       "clothing": "clothes", "attire": "clothes", "garment": "clothes", "garments": "clothes", "wear": "clothes", "apparel": "clothes",
       "crucifixes": "crucifix", "cross": "crucifix", "crosses": "crucifix", "rood": "crucifix", "roods": "crucifix",
-      "curtains": "curtain", "drapery": "curtain", "draperies": "curtain", "drape": "curtain", "drapes": "curtain", "screen": "curtain", "screens": "curtain", "hanging": "curtain", "hangings": "curtain",
+      "curtains": "curtain", "drapery": "curtain", "draperies": "curtain", "drape": "curtain", "drapes": "curtain", "screen": "curtain", "screens": "curtain", 
+      "hanging": "curtain", "hangings": "curtain",
       "daggers": "dagger", "knife": "dagger", "knives": "dagger", "blade": "dagger", "blades": "dagger", "weapon": "dagger", "weapons": "dagger",
       "shadow": "dark", "shadows": "dark", "gloom": "dark", "shade": "dark", "shades": "dark", "absence": "dark",
       "deaths": "death", "demise": "death", "end": "death", "ends": "death", "event": "death", "events": "death", "state": "death", "states": "death",
       "dials": "dial", "gauge": "dial", "gauges": "dial", "indicator": "dial", "indicators": "dial",
       "eyes": "eye", "gaze": "eye", "gazes": "eye", "stare": "eye", "stares": "eye", "organ": "eye", "organs": "eye",
+      "fabrics": "fabric",
       "faces": "face", "visage": "face", "countenance": "face", "feature": "face", "features": "face",
       "floors": "floor", "ground": "floor", "surface": "floor", "surfaces": "floor", "level": "floor", "levels": "floor", "base": "floor", "bases": "floor",
       "gallic": "french", "francophone": "french", "language": "french", "languages": "french", "nationality": "french", "nationalities": "french",
@@ -120,7 +132,8 @@ export const frescoData : FrescoData = {
       "heads": "head",
       "instruments": "instrument", "device": "instrument", "devices": "instrument", "implement": "instrument", "implements": "instrument",
       "limbs" : "limb",
-      "leaned": "lean", "leant": "lean", "leaning": "lean", "leans": "lean", "tilt": "lean", "tilted": "lean", "tilting": "lean", "tilts": "lean", "slant": "lean", "slanted": "lean", "slanting": "lean", "slants": "lean", "incline": "lean", "inclined": "lean", "inclining": "lean", "inclines": "lean",
+      "leaned": "lean", "leant": "lean", "leaning": "lean", "leans": "lean", "tilt": "lean", "tilted": "lean", "tilting": "lean", "tilts": "lean", "slant": "lean", 
+      "slanted": "lean", "slanting": "lean", "slants": "lean", "incline": "lean", "inclined": "lean", "inclining": "lean", "inclines": "lean",
       "legs": "leg", "shank": "leg", "shanks": "leg",
       "lutes": "lute", "mandolin": "lute", "mandolins": "lute",
       "men": "man", "male": "man", "males": "man", "gentleman": "man", "gentlemen": "man",
@@ -138,7 +151,8 @@ export const frescoData : FrescoData = {
       "quadrants": "quadrant", "sector": "quadrant", "sectors": "quadrant", "quarter": "quadrant", "quarters": "quadrant",
       "religions": "religion", "faith": "religion", "faiths": "religion", "belief": "religion", "beliefs": "religion", "system": "religion", "systems": "religion",
       "revival": "renaissance", "rebirth": "renaissance", "era": "renaissance", "eras": "renaissance",
-      "artwork": "renaissance painting", "artworks": "renaissance painting", "masterpiece": "renaissance painting", "masterpieces": "renaissance painting", "creation": "renaissance painting", "creations": "renaissance painting",
+      "artwork": "renaissance painting", "artworks": "renaissance painting", "masterpiece": "renaissance painting", "masterpieces": "renaissance painting", 
+      "creation": "renaissance painting", "creations": "renaissance painting",
       "robes": "robe", "gown": "robe", "gowns": "robe", "cloak": "robe", "cloaks": "robe",
       "sciences": "science", "knowledge": "science", "study": "science", "studies": "science",
       "shelves": "shelf", "ledge": "shelf", "ledges": "shelf", "rack": "shelf", "racks": "shelf", "furniture": "shelf", "table": "shelf", "tables": "shelf",
@@ -168,6 +182,7 @@ export const frescoData : FrescoData = {
       "death": ["deaths", "demise", "end", "ends", "event", "events", "state", "states"],
       "dial": ["dials", "gauge", "gauges", "indicator", "indicators"],
       "eye": ["eyes", "gaze", "gazes", "stare", "stares", "organ", "organs"],
+      "fabric": ["fabrics"],
       "face": ["faces", "visage", "countenance", "feature", "features"],
       "floor": ["floors", "ground", "surface", "surfaces", "level", "levels", "base", "bases"],
       "french": ["gallic", "francophone", "language", "languages", "nationality", "nationalities"],
@@ -211,5 +226,22 @@ export const frescoData : FrescoData = {
       "tile": ["tiles", "slab", "slabs", "plate", "plates"],
       "tool": ["tools"],
       "wood": ["timber", "lumber", "substance", "substances"]
-    }
+    },
+    hints: [
+      "16th century double portrait painting depicting 2 friends commemorating their meeting, housed in National Gallery in London.",
+      
+      "Set in a decorated room with many objects of intellectual, religous and political significance which represent \
+the tensions of the Renaissance such as those of the Reformation and the rise of the Church of England.",
+      
+      "Juxtaposes the celestial and the earthly, the spiritual and the material. Specifically, one object is used as a \
+reminder that all earthly goals such as wealth, power, knowledge are futile as everyone will die.",
+      
+      "Features one of the most famous examples of anamorphosis, a technique which distorts an image so that they only \
+can be seen correctly from a specific angle.",
+      
+      "Holbein's technical skill is evident in the painting's meticulous detail, from the textures of the fabrics to \
+the precision of the scientific instruments. His use of perspective, particularly in the anamorphic skull, \
+demonstrates his mastery of optical effects. This painting remains a masterpiece of Renaissance art, celebrated \
+for its complexity, symbolism, and timeless relevance."
+    ]
 };

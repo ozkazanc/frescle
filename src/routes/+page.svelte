@@ -21,7 +21,7 @@
     let ss = $derived(elapsedSeconds % 60);
     let mm = $derived(Math.floor(elapsedSeconds / 60) % 60);
     let hh = $derived(Math.floor(elapsedSeconds / 3600));
-    let stopWatch: string = $derived.by(() =>{
+    let gameTimer: string = $derived.by(() =>{
         let hours = hh < 10 ? '0' + hh : hh;
         let mins = mm < 10 ? '0' + mm : mm;
         let secs = ss < 10 ? '0' + ss : ss;
@@ -89,7 +89,7 @@
                 ctx.clearRect(0, 0, frescoData.width, frescoData.height);
                 console.log("Fresc is revealed!");
                 clearInterval(timerIntervalId); // Stop the timer
-                console.log("Finished in " + stopWatch);
+                console.log("Finished in " + gameTimer);
                 completed = true;
             }
         }
@@ -131,12 +131,13 @@
         
     }
 
-    function showRevealBorders() {
+    function showRevealBorders(filter: string="") {
         ctx.lineWidth = 1;
         ctx.strokeStyle = `rgb(255, 0, 255)`;
         for(let word in frescoData.keywords){
             console.log(word);
             frescoData.keywords[word].forEach(([x, y, width, height]: [number, number, number, number]) => {
+                if (filter !== "" && word !== filter) return;
                 x *= scale;
                 y *= scale;
                 width *= scale;
@@ -155,19 +156,23 @@
         
         //showGridLines();
         //showRevealAreas();
-        //showRevealBorders();
-
+        //showRevealBorders("material");
+        console.log(frescoData.hints[0]);
+        console.log(frescoData.hints[1]);
+        console.log(frescoData.hints[2]);
+        console.log(frescoData.hints[3]);
+        console.log(frescoData.hints[4]);
         createGrid(frescoData, ROW_COUNT, COL_COUNT);
         reveal("_start");
 
-        const stopWatchTick = setInterval(() => {
+        const gameTimerTick = setInterval(() => {
             elapsedSeconds += 1;
         }, 1000);
         
-        timerIntervalId = stopWatchTick;
+        timerIntervalId = gameTimerTick;
 
         return () => {
-            clearInterval(stopWatchTick);
+            clearInterval(gameTimerTick);
         };
     });
 </script>
@@ -178,12 +183,12 @@
 <!--/> 
 <img src={img_src} alt="Ambassadors">
 <-->
-<p>Timer: {stopWatch}</p>
+<p>Timer: {gameTimer  }</p>
 <p>Cleared {Math.floor(percentageCleared * 100)}% of fresco and {Math.floor(percentageClearedWithoutHints * 100)}% without hints!</p>
 
 <p>What's in the Fresco?</p>
 <input type="text" bind:value={name} use:grabFocus
-    onkeydown={(/** @type {{ key: string; }} */ event) => { if(event.key === 'Enter') oninputsubmit(); }}
+    onkeydown={(event) => { if(event.key === 'Enter') oninputsubmit(); }}
 >
 <button onclick={ () => reveal(receiveRandomSectionWord(), true) }>Reveal Random Area</button>
 
