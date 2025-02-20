@@ -64,10 +64,22 @@
     const COL_COUNT = 64;
 
     function reveal(word: string, hint: boolean=false) {
+        // Using "_start", "_artist" for special words. Don't accept them.
+        if(word.startsWith("_")) return;
+        
         // If the given word is a synonym, turn it into the corresponding keyword.
         word = frescoData.synonyms_to_keyword[word] ?? word;
 
-        if (frescoData.keywords[word]) {
+        if(word == "_artist"){
+            // Reveal all hints
+            console.log(frescoData.hints[0]);
+            console.log(frescoData.hints[1]);
+            console.log(frescoData.hints[2]);
+            console.log(frescoData.hints[3]);
+            console.log(frescoData.hints[4]);
+        }
+
+        else if(frescoData.keywords[word]) {
             console.log("Found " + word)
             frescoData.keywords[word].forEach(([x, y, width, height]: [number, number, number, number]) => {
                 x *= scale;
@@ -92,6 +104,10 @@
                 console.log("Finished in " + gameTimer);
                 completed = true;
             }
+        } 
+        
+        else {
+            console.log(word + " was not found.");
         }
     }
     
@@ -157,11 +173,7 @@
         //showGridLines();
         //showRevealAreas();
         //showRevealBorders("material");
-        console.log(frescoData.hints[0]);
-        console.log(frescoData.hints[1]);
-        console.log(frescoData.hints[2]);
-        console.log(frescoData.hints[3]);
-        console.log(frescoData.hints[4]);
+
         createGrid(frescoData, ROW_COUNT, COL_COUNT);
         reveal("_start");
 
