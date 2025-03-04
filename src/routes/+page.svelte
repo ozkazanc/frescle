@@ -73,12 +73,10 @@
         word = frescoData.synonyms_to_keyword[word] ?? word;
 
         if(word == "_artist"){
-            // Reveal all hints
-            console.log(frescoData.hints[0]);
-            console.log(frescoData.hints[1]);
-            console.log(frescoData.hints[2]);
-            console.log(frescoData.hints[3]);
-            console.log(frescoData.hints[4]);
+            // Reveal all remaining hints
+            for(let i = revealedHints.length; i < frescoData.hints.length; i++){
+                revealedHints.push(frescoData.hints[i]);
+            }      
         }
 
         else if(frescoData.keywords[word]) {
