@@ -45,6 +45,8 @@
         return Math.floor(base_score * percentageClearedWithoutHints);
     });
 
+    let revealedHints: string[] = $state([]);
+    $inspect(revealedHints);
     //let startTime: Date;
    // let time = $derived(Date.now() - startTime);
 
@@ -110,7 +112,13 @@
             console.log(word + " was not found.");
         }
     }
-    
+
+    function revealHint() {
+        // There are no more than 5 hints.
+        if(revealedHints.length >= 5) return;
+
+        revealedHints = [...revealedHints, frescoData.hints[revealedHints.length]];
+    }
 
     function grabFocus(node: HTMLInputElement) { node.focus(); }
     function showGridLines() {
@@ -195,7 +203,7 @@
 <!--/> 
 <img src={img_src} alt="Ambassadors">
 <-->
-<p>Timer: {gameTimer  }</p>
+<p>Timer: {gameTimer}</p>
 <p>Cleared {Math.floor(percentageCleared * 100)}% of fresco and {Math.floor(percentageClearedWithoutHints * 100)}% without hints!</p>
 
 <p>What's in the Fresco?</p>
@@ -203,6 +211,16 @@
     onkeydown={(event) => { if(event.key === 'Enter') oninputsubmit(); }}
 >
 <button onclick={ () => reveal(receiveRandomSectionWord(), true) }>Reveal Random Area</button>
+<button onclick={ () => revealHint() }>Reveal Hint</button>
+
+<ol type="I">
+    {#each revealedHints as hint}
+        <li>
+            <span>{hint}</span>
+        </li>
+    {/each}
+</ol>
+
 
 <h3>{name}</h3>
 {#if submittedText !== ''}
