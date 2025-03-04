@@ -16,6 +16,10 @@
     $inspect(percentageCleared);
     $inspect(percentageClearedWithoutHints);
 
+    let revealedHints: string[] = $state([]);
+    let numHintsReceived: number = $state(0);
+    $inspect(revealedHints);
+
     let timerIntervalId: number = 0;
     let elapsedSeconds = $state(0);
     let ss = $derived(elapsedSeconds % 60);
@@ -42,13 +46,11 @@
         const a = (elapsedSeconds - minTime) / (maxTime - minTime);
         const base_score = elapsedSeconds <= minTime ? maxScore : lerp(maxScore, minScore, a); // The lerp values are switched bc we are losing points as time passes
         
-        return Math.floor(base_score * percentageClearedWithoutHints);
+        return Math.floor(base_score * (percentageClearedWithoutHints - numHintsReceived * 0.01));
     });
 
-    let revealedHints: string[] = $state([]);
-    $inspect(revealedHints);
     //let startTime: Date;
-   // let time = $derived(Date.now() - startTime);
+    //let time = $derived(Date.now() - startTime);
 
     function oninputsubmit() {
         if(name === '') return;
@@ -116,6 +118,7 @@
         if(revealedHints.length >= 5) return;
 
         revealedHints = [...revealedHints, frescoData.hints[revealedHints.length]];
+        numHintsReceived += 1;
     }
 
     function grabFocus(node: HTMLInputElement) { node.focus(); }
