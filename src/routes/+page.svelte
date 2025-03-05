@@ -214,6 +214,10 @@
 <button onclick={ () => reveal(receiveRandomSectionWord(), true) }>Reveal Random Area</button>
 <button onclick={ () => revealHint() }>Reveal Hint</button>
 
+<a class="button-link" href="https://x.com/dorukozkazanc" target="_blank">Follow me on Twitter</a>
+<a class="button-link" href="https://buymeacoffee.com/dorukozkazanc" target="_blank">Buy me a coffee</a>
+<a class="button-link" href="http://doruk.fun/" target="_blank">Discover more games</a>
+
 <ol type="I">
     {#each revealedHints as hint}
         <li>
@@ -248,4 +252,20 @@
       top: 0;
       left: 0;
     }
+
+    .button-link {
+        display: inline-block;
+        padding: 5px 10px;
+        background-color: #007BFF;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+    }
+    .button-link:hover {
+        background-color: #0056b3;
+    }
+
 </style>
