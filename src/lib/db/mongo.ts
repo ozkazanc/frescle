@@ -37,6 +37,9 @@ export async function subscribe(email: string) {
             if(e.errorResponse.code === 11000 && e.errmsg.includes("index: email_1")) {
                 console.log("Dupe email");
                 inserted = true; // Silently accept dupe email, don't show error
+
+                // Try to reset the 'subscribed' field to true, in case the user wants to re-subscribe.
+
             }
             else if(e.errorResponse.code === 11000 && e.errmsg.includes("index: token_1")) {
                 console.log("Dupe token");
@@ -44,6 +47,20 @@ export async function subscribe(email: string) {
         }
     }
 }
+
+export async function unsubscribe(token: string) {
+    try {
+        const result = await newsletter.updateOne(
+            { token: token },
+            { $set: { subscribed: false } }
+        );
+        console.log(result);
+    }
+    catch(e: any) {
+        throw e;
+    }
+}
+
 
 function generateToken(): string {
     const CHARS: string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
