@@ -238,7 +238,7 @@
 {/if}
 
 {#if form?.success}
-    <p class="success-subscribed">Subscribed {form.email}!</p>
+    <p class="success-subscribed">Subscribed {form.email}</p>
 {/if}
 
 <ol type="I">

@@ -8,8 +8,8 @@ import * as db from "$lib/db/mongo";
 //export const ssr = false;
 
 export const load: PageServerLoad = async () => {	
-	const data = await db.newsletter.find({}).toArray();
-	console.log(data);
+	// const data = await db.newsletter.find({}).toArray();
+	// console.log(data);
 
 	return {
 		fresco: JSON.stringify(frescoData)
@@ -25,7 +25,7 @@ export const actions = {
 		const email = data.get('email') as string;
 		
 		try {
-			db.subscribe(email);
+			await db.subscribe(email);
 			return {
 				email: email,
 				success: true

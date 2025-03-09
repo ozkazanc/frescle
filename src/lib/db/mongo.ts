@@ -10,12 +10,23 @@ export function start_mongo(): Promise<MongoClient> {
     return client.connect()
 }
 
-export function subscribe(email: string) {
+export async function subscribe(email: string) {
     if(email === "") {
         throw new Error("Email cannot be empty.");
     }
-    else if(email === "hi") {
-        throw new Error("Duplicate " + email);
+
+    // Try to Insert
+    console.log(`[MongoDB Insert \"${DB_COLL_NAME}\"]: ${email}`);
+
+    // Check for duplicate
+    const duplicate = await newsletter.findOne({ email: email} );
+    if(duplicate) {
+        //throw new Error(`\"${email}\" already exists.`);
+        return; // Fail silently: don't add but don't raise an error
     }
-    // Try to insert
+
+    // Create a token for unsubscription
+
+
+    // Insert
 }
