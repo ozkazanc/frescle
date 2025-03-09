@@ -9,3 +9,12 @@ export function start_mongo(): Promise<MongoClient> {
     console.log("Starting mongo...");
     return client.connect()
 }
+
+export function subscribe(email: string) {
+    if(email === "") {
+        throw new Error("Email cannot be empty.");
+    }
+    throw new Error("Duplicate " + email);
+    
+    // Try to insert
+}

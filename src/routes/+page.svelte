@@ -4,8 +4,9 @@
     import { frescoData } from "$lib/frescodata";
     import { createGrid, updateGridSections, receiveRandomSectionWord, clearPercentage } from "$lib/frescosections";
     
-    //import type { PageProps } from "./$types";
+    import type { PageProps } from "./$types";
     //let { data }: PageProps = $props();
+    let { form }: PageProps = $props();
 
     let name: string = $state('dagger');
     let submittedText: string = $state('');
@@ -218,15 +219,21 @@
 <a class="button-link" href="https://buymeacoffee.com/dorukozkazanc" target="_blank">Buy me a coffee</a>
 <a class="button-link" href="http://doruk.fun/" target="_blank">Discover more games</a>
 
-<form method="POST">
+<form method="POST" action="?/subscribe">
 	<label>
 		email:
 		<input
 			name="email"
+            value={form?.email ?? ""}
 			autocomplete="off"
+            required
 		/>
 	</label>
 </form>
+
+{#if form?.error}
+    <p class="error">{form.error}</p>
+{/if}
 
 <ol type="I">
     {#each revealedHints as hint}

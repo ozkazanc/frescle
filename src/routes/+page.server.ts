@@ -1,12 +1,14 @@
 //import type { FrescoData } from '$lib/frescodata';
-import type { PageServerLoad } from './$types';
+import type { PageServerLoad, Actions } from './$types';
+import { fail } from '@sveltejs/kit'
+
 import { frescoData } from '$lib/frescodata';
-import { newsletter } from "$lib/db/mongo";
+import * as db from "$lib/db/mongo";
 
 //export const ssr = false;
 
 export const load: PageServerLoad = async () => {	
-	const data = await newsletter.find({}).toArray();
+	const data = await db.newsletter.find({}).toArray();
 	console.log(data);
 
 	return {
@@ -15,8 +17,21 @@ export const load: PageServerLoad = async () => {
 };
 
 export const actions = {
-	default: async ({ cookies, request }) => {
+	subscribe: async ({ cookies, request }) => {
 		console.log("Request received");
-		console.log(await request.formData());
+		const data = await request.formData();
+		console.log(data);
+		
+		const email = data.get('email') as string;
+		console.log(email);
+		
+		try {
+			db.subscribe(email);
+		} catch (error) {
+			return fail(422, {
+				email: data.get('email'),
+				error: error instanceof Error ? error.message : "Unknown error."
+			});
+		}
 	}
-};
+} satisfies Actions;
