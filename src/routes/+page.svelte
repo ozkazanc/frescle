@@ -224,7 +224,7 @@
 <form method="POST" action="?/subscribe"  use:enhance>
 	<label>
 		email:
-		<input
+		<input type="email"
 			name="email"
             value={form?.invalid_email ?? ""}
 			autocomplete="off"
