@@ -1,6 +1,8 @@
 <script lang="ts">
     //import img_src from '$lib/assets/Hans_Holbein-The_Ambassadors.jpg'
     import { onMount } from "svelte";
+    import { enhance } from '$app/forms';
+
     import { frescoData } from "$lib/frescodata";
     import { createGrid, updateGridSections, receiveRandomSectionWord, clearPercentage } from "$lib/frescosections";
     
@@ -219,12 +221,12 @@
 <a class="button-link" href="https://buymeacoffee.com/dorukozkazanc" target="_blank">Buy me a coffee</a>
 <a class="button-link" href="http://doruk.fun/" target="_blank">Discover more games</a>
 
-<form method="POST" action="?/subscribe">
+<form method="POST" action="?/subscribe"  use:enhance>
 	<label>
 		email:
 		<input
 			name="email"
-            value={form?.email ?? ""}
+            value={form?.invalid_email ?? ""}
 			autocomplete="off"
             required
 		/>
@@ -233,6 +235,10 @@
 
 {#if form?.error}
     <p class="error">{form.error}</p>
+{/if}
+
+{#if form?.success}
+    <p class="success-subscribed">Subscribed {form.email}!</p>
 {/if}
 
 <ol type="I">

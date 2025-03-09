@@ -18,18 +18,21 @@ export const load: PageServerLoad = async () => {
 
 export const actions = {
 	subscribe: async ({ cookies, request }) => {
-		console.log("Request received");
+		console.log("Subscription request received");
+		
 		const data = await request.formData();
 		console.log(data);
-		
 		const email = data.get('email') as string;
-		console.log(email);
 		
 		try {
 			db.subscribe(email);
+			return {
+				email: email,
+				success: true
+			}
 		} catch (error) {
 			return fail(422, {
-				email: data.get('email'),
+				invalid_email: email,
 				error: error instanceof Error ? error.message : "Unknown error."
 			});
 		}

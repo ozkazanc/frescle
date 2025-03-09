@@ -14,7 +14,8 @@ export function subscribe(email: string) {
     if(email === "") {
         throw new Error("Email cannot be empty.");
     }
-    throw new Error("Duplicate " + email);
-    
+    else if(email === "hi") {
+        throw new Error("Duplicate " + email);
+    }
     // Try to insert
 }
