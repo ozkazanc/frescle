@@ -13,3 +13,10 @@ export const load: PageServerLoad = async () => {
 		fresco: JSON.stringify(frescoData)
 	};
 };
+
+export const actions = {
+	default: async ({ cookies, request }) => {
+		console.log("Request received");
+		console.log(await request.formData());
+	}
+};

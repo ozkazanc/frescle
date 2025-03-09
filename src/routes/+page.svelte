@@ -218,6 +218,16 @@
 <a class="button-link" href="https://buymeacoffee.com/dorukozkazanc" target="_blank">Buy me a coffee</a>
 <a class="button-link" href="http://doruk.fun/" target="_blank">Discover more games</a>
 
+<form method="POST">
+	<label>
+		email:
+		<input
+			name="email"
+			autocomplete="off"
+		/>
+	</label>
+</form>
+
 <ol type="I">
     {#each revealedHints as hint}
         <li>
