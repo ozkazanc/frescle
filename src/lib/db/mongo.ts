@@ -35,14 +35,24 @@ export async function subscribe(email: string) {
         catch(e: any) {
             //console.error(e)
             if(e.errorResponse.code === 11000 && e.errmsg.includes("index: email_1")) {
-                console.log("Dupe email");
+                console.log("Duplicate email");
                 inserted = true; // Silently accept dupe email, don't show error
 
                 // Try to reset the 'subscribed' field to true, in case the user wants to re-subscribe.
+                try {
+                    const result = await newsletter.updateOne(
+                        { email: email },
+                        { $set: { subscribed: true } }
+                    );
+                    console.log(result);
+                }
+                catch(e: any) {
+                    throw e;
+                }
 
             }
             else if(e.errorResponse.code === 11000 && e.errmsg.includes("index: token_1")) {
-                console.log("Dupe token");
+                console.log("Duplicate token");
             }
         }
     }

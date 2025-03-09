@@ -1,6 +1,6 @@
 //import type { FrescoData } from '$lib/frescodata';
 import type { PageServerLoad, Actions } from './$types';
-import { fail } from '@sveltejs/kit'
+import { fail, redirect } from '@sveltejs/kit'
 
 import { frescoData } from '$lib/frescodata';
 import * as db from "$lib/db/mongo";
@@ -11,7 +11,8 @@ export const load: PageServerLoad = async ({ url }) => {
 	//const data = await db.newsletter.find({}).toArray();
 	//console.log(data);
 	
-	// URL Example: http://localhost:5173/?token=JVGo1RmKLW6IjAijjE92r4TOg61jm9TS&unsubscribe
+	// URL Example: 
+	// http://localhost:5173/?token=JVGo1RmKLW6IjAijjE92r4TOg61jm9TS&unsubscribe
 	//console.log(url);
 	const unsubscribe = url.searchParams.has("unsubscribe");
 	const emailToken = url.searchParams.get("token");
@@ -23,14 +24,10 @@ export const load: PageServerLoad = async ({ url }) => {
 			console.log("Sorry to see you go.");
 			try {
 				await db.unsubscribe(emailToken.toString());
-				return {
-					unsubscribed: true
-				}
 			} catch (error) {
-				return fail(422, {
-					unsubscribed: false,
-					error: error instanceof Error ? error.message : "Unknown error."
-				});
+				console.error(error)
+			} finally {
+				redirect(303, '/'); // Eventually redirect to a '/unsubscribe'
 			}
 		}
 	}
